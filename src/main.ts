@@ -6,6 +6,7 @@ import { localStoragePort } from "./shared/local-storage";
 import { webLockPort } from "./shared/web-lock";
 import { createSpaceService, mountSpacesView } from "./spaces";
 import { createBookingService, mountBookingsView, systemClock } from "./bookings";
+import { createAdminService, mountAdminView } from "./admin";
 
 interface FeatureModule {
   mount(root: HTMLElement, auth: AuthService): void;
@@ -60,6 +61,20 @@ const featureModules: readonly FeatureModule[] = [
           ? undefined
           : initializedBookings.error.message,
       });
+    },
+  },
+  {
+    // Requisito 004: la autorización vuelve a verificarse en el servicio admin.
+    mount(root, auth) {
+      const main = root.querySelector<HTMLElement>("#main-content");
+      if (!main) return;
+      const admin = createAdminService({
+        storage: localStoragePort,
+        lock: webLockPort,
+        auth,
+        clock: systemClock,
+      });
+      mountAdminView(main, { auth, admin });
     },
   },
 ];
