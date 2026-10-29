@@ -5,6 +5,7 @@ import { mountAuthView } from "./auth";
 import { localStoragePort } from "./shared/local-storage";
 import { webLockPort } from "./shared/web-lock";
 import { createSpaceService, mountSpacesView } from "./spaces";
+import { createBookingService, mountBookingsView, systemClock } from "./bookings";
 
 interface FeatureModule {
   mount(root: HTMLElement, auth: AuthService): void;
@@ -28,6 +29,37 @@ const featureModules: readonly FeatureModule[] = [
         spaces,
         initializedSpaces.ok ? undefined : initializedSpaces.error.message,
       );
+    },
+  },
+  {
+    // Requisitos 003: RF-001–RF-016; enchufar reservas. Usa su propia instancia de
+    // SpaceService porque la de 002 no se expone; ambas releen el almacenamiento.
+    mount(root, auth) {
+      const main = root.querySelector<HTMLElement>("#main-content");
+      if (!main) return;
+      const spaces = createSpaceService({
+        storage: localStoragePort,
+        lock: webLockPort,
+        auth,
+      });
+      spaces.initialize();
+      const bookings = createBookingService({
+        storage: localStoragePort,
+        lock: webLockPort,
+        auth,
+        spaces,
+        clock: systemClock,
+      });
+      const initializedBookings = bookings.initialize();
+      mountBookingsView(main, {
+        auth,
+        spaces,
+        bookings,
+        clock: systemClock,
+        startupWarning: initializedBookings.ok
+          ? undefined
+          : initializedBookings.error.message,
+      });
     },
   },
 ];
