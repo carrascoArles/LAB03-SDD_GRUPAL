@@ -4,13 +4,33 @@ import type { AuthService } from "./auth";
 import { mountAuthView } from "./auth";
 import { localStoragePort } from "./shared/local-storage";
 import { webLockPort } from "./shared/web-lock";
+import { createSpaceService, mountSpacesView } from "./spaces";
 
 interface FeatureModule {
   mount(root: HTMLElement, auth: AuthService): void;
 }
 
 // Requisito: arquitectura modular; agregar aquí los módulos futuros de la SPA.
-const featureModules: readonly FeatureModule[] = [];
+const featureModules: readonly FeatureModule[] = [
+  {
+    mount(root, auth) {
+      const main = root.querySelector<HTMLElement>("#main-content");
+      if (!main) return;
+      const spaces = createSpaceService({
+        storage: localStoragePort,
+        lock: webLockPort,
+        auth,
+      });
+      const initializedSpaces = spaces.initialize();
+      mountSpacesView(
+        main,
+        auth,
+        spaces,
+        initializedSpaces.ok ? undefined : initializedSpaces.error.message,
+      );
+    },
+  },
+];
 
 // Requisitos: RF-013–RF-017; ensamblar dependencias y avisar de datos corruptos.
 function startApplication(): void {

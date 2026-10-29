@@ -215,6 +215,9 @@ export function mountAuthView(
       sessionDetail.textContent = "";
       topbarSession.hidden = true;
       logoutButton.hidden = true;
+      root.dispatchEvent(
+        new Event("reservalocal:session-change", { bubbles: true }),
+      );
       return;
     }
 
@@ -223,6 +226,9 @@ export function mountAuthView(
       sessionDetail.textContent = "";
       topbarSession.hidden = true;
       logoutButton.hidden = true;
+      root.dispatchEvent(
+        new Event("reservalocal:session-change", { bubbles: true }),
+      );
       return;
     }
 
@@ -230,6 +236,9 @@ export function mountAuthView(
     sessionDetail.textContent = `${current.value.email} · ${current.value.role}`;
     topbarSession.hidden = false;
     logoutButton.hidden = false;
+    root.dispatchEvent(
+      new Event("reservalocal:session-change", { bubbles: true }),
+    );
   }
 
   // Requisito: RF-017; asociar errores de validación visibles a su campo.
