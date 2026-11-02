@@ -8,3 +8,5 @@ coverage/
 Thumbs.db
 *.tmp
 *.swp
+.vscode/
+.idea/

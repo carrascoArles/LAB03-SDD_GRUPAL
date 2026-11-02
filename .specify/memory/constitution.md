@@ -1,11 +1,12 @@
 <!--
 Informe de impacto de sincronización
-Cambio de versión: 1.0.0 -> 1.0.1 (traducción y aclaraciones editoriales)
-Principios modificados: I-V; títulos y contenido traducidos al español sin cambiar
-  los requisitos.
+Cambio de versión: 1.0.1 -> 1.1.0 (excepción temporal de acceso entre funcionalidades)
+Principios modificados: I. Arquitectura modular por funcionalidades; añade una
+  excepción acotada para la funcionalidad 004.
 Secciones añadidas: Ninguna.
 Secciones eliminadas: Ninguna.
-Pendientes: Confirmar la fecha original de ratificación.
+Pendientes: Confirmar la fecha original de ratificación. Retirar la excepción de
+  004 cuando 003 publique los helpers autorizados en su contrato.
 -->
 
 # Constitución de ReservaLocal
@@ -20,6 +21,18 @@ dominio DEBE mantenerse pura y separada del DOM y de los efectos secundarios. Lo
 módulos DEBEN comunicarse únicamente mediante los contratos definidos en las
 especificaciones de funcionalidades. Esta separación permite comprender y probar cada
 funcionalidad de forma independiente.
+
+Como excepción temporal y aprobada por el grupo, `src/admin` de la funcionalidad 004
+PUEDE reutilizar directamente `leerReservas`, `guardarReservas`, `marcarCancelada`,
+`puedeCancelar`, `reemplazarReserva` y `ordenarPorInicio` de `src/bookings`, sin
+modificar archivos de la funcionalidad 003. `leerReservas` ya se exporta desde
+`src/bookings/index.ts`; los demás helpers pueden importarse desde sus módulos
+internos. La excepción se limita a esos helpers y a 004: no autoriza otros imports
+internos ni cambios al contrato de 003. Se registra como deuda técnica porque 003 no
+publica todos los helpers necesarios y su operación `cancelar()` solo permite
+cancelar reservas de la persona propietaria. La excepción DEBE retirarse cuando 003
+publique esos helpers en su contrato; entonces 004 DEBE depender solo de la interfaz
+publicada.
 
 ### II. Resultados explícitos del dominio y validación
 Las operaciones de dominio DEBEN informar éxito o error mediante `Result<T, E>` y NO
@@ -87,4 +100,4 @@ la cobertura de pruebas funcionales y la tolerancia a fallos del almacenamiento.
 cambios que no cumplan estos requisitos DEBEN corregirse o resolverse explícitamente
 mediante una enmienda constitucional antes de adoptarse.
 
-**Versión**: 1.0.1 | **Ratificada**: TODO(FECHA_DE_RATIFICACIÓN): fecha original de adopción no registrada | **Última enmienda**: 2026-10-28
+**Versión**: 1.1.0 | **Ratificada**: TODO(FECHA_DE_RATIFICACIÓN): fecha original de adopción no registrada | **Última enmienda**: 2026-10-29

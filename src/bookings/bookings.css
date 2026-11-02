@@ -1,0 +1,121 @@
+.bookings-section {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.bookings-section h2,
+.bookings-section h3 {
+  margin-bottom: var(--space-2);
+}
+
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.bookings-grid[hidden] {
+  display: none;
+}
+
+.bookings-section label {
+  font-weight: 700;
+}
+
+.bookings-section input,
+.bookings-section select {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+
+.bookings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.free-hours-title {
+  margin: var(--space-3) 0 var(--space-2);
+  font-weight: 700;
+}
+
+.free-hours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: var(--space-2);
+}
+
+.hour-chip {
+  padding: 0.45rem 0.4rem;
+  white-space: nowrap;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.hour-free {
+  color: var(--color-success);
+  background: var(--color-success-background);
+  border-color: var(--color-success-border);
+}
+
+.hour-busy {
+  color: var(--color-error);
+  background: var(--color-error-background);
+  border-color: var(--color-error-border);
+  cursor: not-allowed;
+}
+
+.hour-past {
+  color: var(--color-muted);
+  background: var(--color-surface-muted);
+  cursor: not-allowed;
+}
+
+.bookings-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.booking-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.booking-item div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.booking-status {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.booking-cancelada {
+  background: var(--color-surface-muted);
+}
+
+.booking-cancelada .booking-status {
+  color: var(--color-muted);
+}
